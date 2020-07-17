@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dogify">
 
-    //internet permission to access parse server that lives in the cloud
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -24,5 +24,4 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
     </application>
-
 </manifest>
