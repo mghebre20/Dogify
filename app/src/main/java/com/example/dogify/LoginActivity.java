@@ -1,22 +1,48 @@
 package com.example.dogify;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
+
+import com.spotify.sdk.android.authentication.AuthenticationClient;
+import com.spotify.sdk.android.authentication.AuthenticationRequest;
+import com.spotify.sdk.android.authentication.AuthenticationResponse;
+
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
+
+    private static final String CLIENT_ID = "27325e06a80b40bbadb9cd01ac815115";
+    private static final String REDIRECT_URI = "dogify://callback";
+    private static final int REQUEST_CODE = 15;
+    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
+
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private RequestQueue queue;
+
 
     //member variables
     private EditText etUsername;
@@ -42,16 +68,20 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick login button ");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
+                Log.i(TAG, "onClick login button ");
 
             }
         });
+
+        authenticateSpotify();
+        sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
+        queue = Volley.newRequestQueue(this);
     }
 
-        private void loginUser(String username, String password) {
+    private void loginUser(String username, String password) {
             Log.i(TAG, "Attempting to log in user" + username);
             //loginBackground executes logic on background thread
             ParseUser.logInInBackground(username, password, new LogInCallback() {
@@ -63,9 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    //if request succeded, the ParseException will be null
+                    //if request succeeded, the ParseException will be null
                     goToMainActivity();
-                    //toast to indicate to the user that they have successfully logged in
                     Toast.makeText(LoginActivity.this,"Success!", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -73,12 +102,42 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToMainActivity() {
         //Intent to traverse from here to MainActivity
-        //Takes in two parameters: this and our navigation point, MainActivity
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-
-        //finish the LoginActivity once navigated to MainActivity
-        //this will remove loginActivity from the back stack
         finish();
+    }
+
+    private void authenticateSpotify(){
+        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+        builder.setScopes(new String[]{SCOPES});
+        AuthenticationRequest request = builder.build();
+        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+    }
+
+    //method to traverse from the spotify api to my app if successful
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        // check if result comes from the correct activity after logging in
+        if (requestCode == REQUEST_CODE) {
+            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+
+            switch (response.getType()) {
+                // the response was successful and get back auth token
+                case TOKEN:
+                    editor = getSharedPreferences("SPOTIFY", 0).edit();
+                    editor.putString("token", response.getAccessToken());
+                    Log.d("STARTING", "GOT AUTH TOKEN");
+                    editor.apply();
+//                    waitForUserInfo();
+                    break;
+
+                case ERROR:
+                    break;
+
+                default:
+            }
+        }
     }
 }

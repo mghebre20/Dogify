@@ -30,6 +30,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation "com.google.code.gson:gson:2.8.5"
+    implementation 'com.android.volley:volley:1.1.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
     //for integrating parse
     implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.24.2'
@@ -38,4 +41,16 @@ dependencies {
     //design support libraries for bottom navigation view
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     implementation "com.google.android.material:material:${designSupportVersion}"
+
+    //spotify app remote
+    implementation project(':spotify-app-remote-release-0.7.0')
+    implementation "com.google.code.gson:gson:2.8.5"
+
+    //spotify-android sdk auth-libs
+    implementation 'com.spotify.android:auth:1.1.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+
+    //Oauth handler
+    implementation 'com.codepath.libraries:android-oauth-handler:2.2.0'
 }

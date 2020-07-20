@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.parse.Parse;
 
-//setting up parse for application
+//setting up parse for my application
 public class ParseApplication extends Application {
     @Override
     public void onCreate() {

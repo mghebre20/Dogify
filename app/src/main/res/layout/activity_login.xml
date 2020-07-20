@@ -33,7 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Login" />
+        android:background="#FF9800"
+        android:text="Login"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btnSpotify"
@@ -41,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:backgroundTint="#4CAF50"
-        android:text="Connect with Spotify" />
+        android:text="Connect with Spotify"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>
