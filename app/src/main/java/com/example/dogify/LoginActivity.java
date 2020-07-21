@@ -8,23 +8,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.dogify.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.Track;
 
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
@@ -48,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
+    private Button btnSpotify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //if user is signed in already, then goToMainActivity
-        if(ParseUser.getCurrentUser() != null) {
+        if (ParseUser.getCurrentUser() != null) {
             goToMainActivity();
         }
 
@@ -63,42 +57,39 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSpotify = findViewById(R.id.btnSpotify);
+        sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
+        queue = Volley.newRequestQueue(this);
 
         //set a onClickListener on the login button
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnLogin.setOnClickListener(view ->  {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
                 Log.i(TAG, "onClick login button ");
-
-            }
         });
-
+       
         authenticateSpotify();
-        sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        queue = Volley.newRequestQueue(this);
     }
 
     private void loginUser(String username, String password) {
-            Log.i(TAG, "Attempting to log in user" + username);
-            //loginBackground executes logic on background thread
-            ParseUser.logInInBackground(username, password, new LogInCallback() {
-                @Override
-                public void done(ParseUser user, ParseException e) {
-                    //if request fails, the ParseException wil not be null
-                    if(e != null){
-                        Log.e(TAG, "Error with login", e);
-                        Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    //if request succeeded, the ParseException will be null
-                    goToMainActivity();
-                    Toast.makeText(LoginActivity.this,"Success!", Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "Attempting to log in user" + username);
+        //loginBackground executes logic on background thread
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                //if request fails, the ParseException wil not be null
+                if (e != null) {
+                    Log.e(TAG, "Error with login", e);
+                    Toast.makeText(LoginActivity.this, "Issue with login", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-            });
-        }
+                //if request succeeded, the ParseException will be null
+                goToMainActivity();
+                Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void goToMainActivity() {
         //Intent to traverse from here to MainActivity
@@ -107,14 +98,14 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void authenticateSpotify(){
+    private void authenticateSpotify() {
         AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{SCOPES});
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
 
-    //method to traverse from the spotify api to my app if successful
+    //method to traverse from the spotify api to my app after login success
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -130,14 +121,14 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("token", response.getAccessToken());
                     Log.d("STARTING", "GOT AUTH TOKEN");
                     editor.apply();
-//                    waitForUserInfo();
                     break;
 
                 case ERROR:
+                    default:
                     break;
-
-                default:
             }
         }
     }
+
+
 }
