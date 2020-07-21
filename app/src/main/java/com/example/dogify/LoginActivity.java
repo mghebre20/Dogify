@@ -119,16 +119,34 @@ public class LoginActivity extends AppCompatActivity {
                 case TOKEN:
                     editor = getSharedPreferences("SPOTIFY", 0).edit();
                     editor.putString("token", response.getAccessToken());
-                    Log.d("STARTING", "GOT AUTH TOKEN");
+                    Log.d("STARTING", "Got Auth Token");
                     editor.apply();
+                    waitForUserInfo();
                     break;
 
                 case ERROR:
-                    default:
+                default:
+                    Log.e(TAG, "Issue with response");
                     break;
             }
         }
     }
 
+    private void waitForUserInfo() {
+        SpotifyClient client = new SpotifyClient(queue, sharedPreferences);
+        client.get(() -> {
+            User user = client.getUser();
+            editor = getSharedPreferences("SPOTIFY", 0).edit();
+            editor.putString("userid", user.id);
+            Log.d("STARTING", "GOT user info");
+            editor.commit();
+            traverseToMainActivity();
+        });
+    }
 
+    private void traverseToMainActivity() {
+        Intent intentSpotify = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intentSpotify);
+        finish();
+    }
 }
