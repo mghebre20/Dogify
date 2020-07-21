@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
                 Log.i(TAG, "onClick login button ");
         });
-       
+
         authenticateSpotify();
     }
 
