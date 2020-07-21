@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(this);
 
-        //set a onClickListener on the login button
         btnLogin.setOnClickListener(view ->  {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
@@ -69,7 +68,10 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i(TAG, "onClick login button ");
         });
 
-        authenticateSpotify();
+        btnSpotify.setOnClickListener(view -> {
+            authenticateSpotify();
+            Log.i(TAG, "onClick spotify ");
+        });
     }
 
     private void loginUser(String username, String password) {
@@ -138,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             User user = client.getUser();
             editor = getSharedPreferences("SPOTIFY", 0).edit();
             editor.putString("userid", user.id);
-            Log.d("STARTING", "GOT user info");
+            Log.d("STARTING", "Got user info");
             editor.commit();
             traverseToMainActivity();
         });
