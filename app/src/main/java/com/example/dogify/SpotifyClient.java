@@ -18,16 +18,16 @@ public class SpotifyClient {
     private User user;
 
     public SpotifyClient(RequestQueue queue, SharedPreferences sharedPreferences) {
-        queue = queue;
-        sharedPreferences = sharedPreferences;
-    }
-
-    public User getUser() {
-        return user;
+        this.queue = queue;
+        this.sharedPreferences = sharedPreferences;
     }
 
     public interface VolleyCallBack {
         void onSuccess();
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void get(final VolleyCallBack callBack) {
@@ -36,7 +36,6 @@ public class SpotifyClient {
             user = gson.fromJson(response.toString(), User.class);
             callBack.onSuccess();
         }, error -> get(() -> {
-
         })) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -50,3 +49,4 @@ public class SpotifyClient {
         queue.add(jsonObjectRequest);
     }
 }
+

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toolbar;
 
 import com.example.dogify.Fragments.HomeFragment;
 import com.example.dogify.Fragments.ProfileFragment;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //responsible for changing the fragment that is shown in frame layout
         final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -43,9 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                 }
-                //make changes based on transactions
                 //replacing frame layout with the associated fragment
-                // commit, make changes immediately
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }

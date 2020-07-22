@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
 
     private static final String CLIENT_ID = "27325e06a80b40bbadb9cd01ac815115";
-    private static final String REDIRECT_URI = "dogify://callback";
+    private static final String REDIRECT_URI = "com.example.dogify://callback";
     private static final int REQUEST_CODE = 15;
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
 
@@ -36,8 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
 
-
-    //member variables
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
@@ -52,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null) {
             goToMainActivity();
         }
+        
 
         //assigning member variables to elements
         etUsername = findViewById(R.id.etUsername);
@@ -123,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("token", response.getAccessToken());
                     Log.d("STARTING", "Got Auth Token");
                     editor.apply();
+                    queue = Volley.newRequestQueue(this);
                     waitForUserInfo();
                     break;
 
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             User user = client.getUser();
             editor = getSharedPreferences("SPOTIFY", 0).edit();
             editor.putString("userid", user.id);
-            Log.d("STARTING", "Got user info");
+            Log.d(TAG, "Got user info");
             editor.commit();
             traverseToMainActivity();
         });
