@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null) {
             goToMainActivity();
         }
-        
+
 
         //assigning member variables to elements
         etUsername = findViewById(R.id.etUsername);
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        //Intent to traverse from here to MainActivity
+        //traverse from here to MainActivity
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
@@ -106,12 +106,12 @@ public class LoginActivity extends AppCompatActivity {
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
 
-    //method to traverse from the spotify api to my app after login success
+    //traverses from the spotify api to main activity after login success
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        // check if result comes from the correct activity after logging in
+        // checking if result comes from the correct activity after logging in
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
 

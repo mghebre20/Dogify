@@ -20,6 +20,7 @@ import android.widget.Toolbar;
 import com.example.dogify.LoginActivity;
 import com.example.dogify.MainActivity;
 import com.example.dogify.R;
+import com.parse.ParseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,16 +51,16 @@ public class ProfileFragment extends Fragment {
         inflater.inflate(R.menu.menu_profile_items, menu);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//
-//        if(item.getItemId() == R.id.action_logout) {
-//
-//                Intent i = new Intent(getContext(), LoginActivity.class);
-//                startActivity(i);
-//                Toast.makeText(getActivity(), "Logout Success", Toast.LENGTH_SHORT).show();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        
+        if(item.getItemId() == R.id.action_logout) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+                Toast.makeText(getActivity(), "Logout Success", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
