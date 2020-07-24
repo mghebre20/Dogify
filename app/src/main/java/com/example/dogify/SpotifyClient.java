@@ -5,14 +5,14 @@ import android.content.SharedPreferences;
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.dogify.models.User;
+import com.example.dogify.Models.User;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SpotifyClient {
-    private static final String ENDPOINT = "https://api.spotify.com/v1/me";
+    private static final String BASE_URL = "https://api.spotify.com/v1/me";
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private User user;
@@ -31,7 +31,7 @@ public class SpotifyClient {
     }
 
     public void get(final VolleyCallBack callBack) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(ENDPOINT, null, response -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(BASE_URL, null, response -> {
             Gson gson = new Gson();
             user = gson.fromJson(response.toString(), User.class);
             callBack.onSuccess();

@@ -1,4 +1,4 @@
-package com.example.dogify.models;
+package com.example.dogify.Models;
 
 public class User {
     public String display_name;
