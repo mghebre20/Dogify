@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //responsible for changing the fragment that is shown in frame layout
         final FragmentManager fragmentManager = getSupportFragmentManager();
 

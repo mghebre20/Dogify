@@ -13,21 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.dogify.MainActivity;
+import com.example.dogify.Models.MoodPlaylist;
 import com.example.dogify.R;
 import com.example.dogify.RVAdapters.MoodAdapter;
 
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.From azhareus to Everyone: (12:11 PM)
+ * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
 
-    private ArrayList<String> moodNames = new ArrayList<>();
-    private ArrayList<Integer> moodImage = new ArrayList<Integer>();
+    private ArrayList<MoodPlaylist> moodPlaylists;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
@@ -41,35 +41,46 @@ public class HomeFragment extends Fragment {
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("Home");
 
-        getImages();
-
-    }
-    private void getImages() {
-        Log.i(TAG, "bitmaps images demonstrated");
-
-        moodImage.add(0, R.mipmap.happy_dog_foreground);
-        moodNames.add("Happy");
-
-        moodImage.add(1, R.mipmap.sad_dog_foreground);
-        moodNames.add("Sad");
-
-        moodImage.add(2, R.mipmap.excited_dog_foreground);
-        moodNames.add("Excited");
-
-        moodImage.add(3, R.mipmap.loud_dog_foreground);
-        moodNames.add("Loud");
-
-        moodImage.add(4, R.mipmap.calm_dog_foreground);
-        moodNames.add("Calm");
-
         initRecyclerView();
     }
+
     private void initRecyclerView() {
-        Log.i(TAG, "initialize RecyclerView ");
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        Log.i(TAG, "RecyclerView initialized");
         RecyclerView rvMood = getView().findViewById(R.id.rvMood);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvMood.setLayoutManager(linearLayoutManager);
-        MoodAdapter moodAdapter = new MoodAdapter(getContext(), moodNames, moodImage);
+        moodPlaylists = new ArrayList<>();
+        setMoodPlaylists();
+        MoodAdapter moodAdapter = new MoodAdapter(getContext(), moodPlaylists);
         rvMood.setAdapter(moodAdapter);
+        moodAdapter.notifyDataSetChanged();
+    }
+
+    private void setMoodPlaylists(){
+
+        MoodPlaylist mp1 = new MoodPlaylist();
+        mp1.setTitle("Happy");
+        mp1.setImage(R.mipmap.happy_dog_foreground);
+        moodPlaylists.add(mp1);
+
+        MoodPlaylist mp2 = new MoodPlaylist();
+        mp2.setTitle("Sad");
+        mp2.setImage(R.mipmap.sad_dog_foreground);
+        moodPlaylists.add(mp2);
+
+        MoodPlaylist mp3 = new MoodPlaylist();
+        mp3.setTitle("Excited");
+        mp3.setImage(R.mipmap.excited_dog_foreground);
+        moodPlaylists.add(mp3);
+
+        MoodPlaylist mp4 = new MoodPlaylist();
+        mp4.setTitle("loud");
+        mp4.setImage(R.mipmap.loud_dog_foreground);
+        moodPlaylists.add(mp4);
+
+        MoodPlaylist mp5 = new MoodPlaylist();
+        mp5.setTitle("calm");
+        mp5.setImage(R.mipmap.calm_dog_foreground);
+        moodPlaylists.add(mp5);
     }
 }

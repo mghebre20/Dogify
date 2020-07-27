@@ -1,6 +1,7 @@
 package com.example.dogify.RVAdapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,22 +13,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.dogify.DetailsActivity1;
+import com.example.dogify.Models.MoodPlaylist;
 import com.example.dogify.R;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class MoodAdapter extends RecyclerView.Adapter<MoodAdapter.ViewHolder> {
+public class MoodAdapter extends RecyclerView.Adapter<MoodAdapter.ViewHolder> implements View.OnClickListener {
 
     public static final String TAG = "MoodAdapter";
 
     private Context context;
-    private ArrayList<String> moodNames = new ArrayList<>();
-    private ArrayList<Integer> moodImage = new ArrayList<>();
+    private ArrayList<MoodPlaylist> moodPlaylists;
 
-    public MoodAdapter(Context context, ArrayList<String> moodNames, ArrayList<Integer> moodImage) {
+    public MoodAdapter(Context context, ArrayList<MoodPlaylist> moodPlaylists) {
         this.context = context;
-        this.moodNames = moodNames;
-        this.moodImage = moodImage;
+        this.moodPlaylists = moodPlaylists;
+
     }
 
     @NonNull
@@ -39,17 +43,17 @@ public class MoodAdapter extends RecyclerView.Adapter<MoodAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context)
-                .asBitmap()
-                .load(moodImage.get(position))
-                .into(holder.ivMoodImage);
-
-        holder.tvMoodText.setText(moodNames.get(position));
+         MoodPlaylist moodPlaylist = moodPlaylists.get(position);
+         holder.bind(moodPlaylist);
     }
 
     @Override
     public int getItemCount() {
-        return moodNames.size();
+        return moodPlaylists.size();
+    }
+
+    @Override
+    public void onClick(View view) {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -62,6 +66,23 @@ public class MoodAdapter extends RecyclerView.Adapter<MoodAdapter.ViewHolder> {
 
             ivMoodImage = itemView.findViewById(R.id.ivMoodImage);
             tvMoodText = itemView.findViewById(R.id.tvMoodText);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    MoodPlaylist moodPlaylist = moodPlaylists.get(position);
+                    Intent i = new Intent(context, DetailsActivity1.class);
+                    i.putExtra(MoodPlaylist.class.getSimpleName(), Parcels.wrap(moodPlaylist));
+                    context.startActivity(i);
+
+                }
+            });
+        }
+
+        public void bind(MoodPlaylist moodPlaylist) {
+            tvMoodText.setText(moodPlaylist.getTitle());
+            Glide.with(context).load(moodPlaylist.getImage()).into(ivMoodImage);
         }
     }
 }
