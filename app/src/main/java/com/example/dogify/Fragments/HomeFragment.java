@@ -1,5 +1,6 @@
 package com.example.dogify.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.dogify.DetailsActivity1;
 import com.example.dogify.MainActivity;
 import com.example.dogify.Models.MoodPlaylist;
 import com.example.dogify.R;
@@ -26,8 +28,8 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
-
     private ArrayList<MoodPlaylist> moodPlaylists;
+    private MoodAdapter moodAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
@@ -37,11 +39,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         actionBar.setTitle("Home");
 
         initRecyclerView();
+
     }
 
     private void initRecyclerView() {

@@ -12,11 +12,30 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tvDAMood" />
 
-    <TextView
-
-        android:id="@+id/tvDAMood"
+    <FrameLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF9800"
+        android:layout_above="@+id/rvDASoundEffects"
+
+    <TextView
+        android:id="@+id/tvDAMood"
+        android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:text="MOOD"
+        android:textSize="50dp"
+        android:textColor="#000"
+        android:autoSizeTextType="none"
+        android:gravity="center"
+        android:background="#FF9800"
         />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvDAMood"
+        >
+
+    </ImageView>
+    </FrameLayout>
 </RelativeLayout>
