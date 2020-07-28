@@ -10,32 +10,34 @@
         android:id="@+id/rvDASoundEffects"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tvDAMood" />
+        android:layout_below="@+id/flDAContainer" />
 
     <FrameLayout
+        android:id="@+id/flDAContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FF9800"
-        android:layout_above="@+id/rvDASoundEffects"
-
-    <TextView
-        android:id="@+id/tvDAMood"
-        android:layout_width="wrap_content"
         android:layout_height="150dp"
-        android:text="MOOD"
-        android:textSize="50dp"
-        android:textColor="#000"
-        android:autoSizeTextType="none"
-        android:gravity="center"
-        android:background="#FF9800"
-        />
+        android:background="#FF9800">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tvDAMood"
-        >
+        <TextView
+            android:id="@+id/tvDAMood"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:text="MOOD"
+            android:textSize="50dp"
+            android:textColor="#000"
+            android:autoSizeTextType="none"
+            android:gravity="center"
+            android:background="#FF9800"
+            >
+        </TextView>
 
-    </ImageView>
+        <ImageView
+            android:id="@+id/ivDAMood"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="150dp"
+            tools:srcCompat="@tools:sample/avatars">
+        </ImageView>
     </FrameLayout>
+
 </RelativeLayout>
