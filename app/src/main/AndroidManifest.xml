@@ -13,8 +13,6 @@
         android:name=".ParseApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DetailsActivity1"></activity>
-        <activity android:name=".DetailsActivity2"></activity>
         <activity android:name=".LoginActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -29,5 +27,7 @@
         </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".DetailsActivity1"></activity>
+        <activity android:name=".DetailsActivity2"></activity>
     </application>
 </manifest>

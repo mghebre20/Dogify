@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:foregroundTint="#FF9C0B">
+
+    <TextView
+        android:id="@+id/tvDASoundEffect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ibPlayButton"
+        android:layout_alignParentTop="true"
+        android:layout_margin="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/ibPlayButton"
+        android:autoSizeMaxTextSize="16dp"
+        android:autoSizeMinTextSize="10dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center_vertical"
+        android:text="Sound Effect"
+        android:textColor="#000">
+
+    </TextView>
+
+    <ImageButton
+        android:id="@+id/ibPlayButton"
+        android:layout_width="49dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FF9800"
+        app:srcCompat="@drawable/play_button_foreground"
+        tools:srcCompat="@drawable/play_button_foreground" />
+
+</RelativeLayout>
+

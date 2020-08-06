@@ -2,6 +2,7 @@ package com.example.dogify.RVAdapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,18 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.dogify.LoginActivity.SHARED_PREFS;
+import static com.parse.Parse.getApplicationContext;
+
 public class MoodAdapter extends RecyclerView.Adapter<MoodAdapter.ViewHolder> implements View.OnClickListener {
 
     public static final String TAG = "MoodAdapter";
 
     private Context context;
     private ArrayList<MoodPlaylist> moodPlaylists;
+    public String token;
+
 
     public MoodAdapter(Context context, ArrayList<MoodPlaylist> moodPlaylists) {
         this.context = context;
@@ -60,25 +67,32 @@ public class MoodAdapter extends RecyclerView.Adapter<MoodAdapter.ViewHolder> im
 
         ImageView ivMoodImage;
         TextView tvMoodText;
+        TextView tvDASoundEffect;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivMoodImage = itemView.findViewById(R.id.ivMoodImage);
             tvMoodText = itemView.findViewById(R.id.tvMoodText);
+            tvDASoundEffect = itemView.findViewById(R.id.tvDASoundEffect);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+                    String token = sharedPref.getString("token", "");
+
                     int position = getAdapterPosition();
                     MoodPlaylist moodPlaylist = moodPlaylists.get(position);
                     Intent i = new Intent(context, DetailsActivity1.class);
                     i.putExtra(MoodPlaylist.class.getSimpleName(), Parcels.wrap(moodPlaylist));
+                    i.putExtra("token", token);
                     context.startActivity(i);
 
                 }
             });
-        }
+            }
 
         public void bind(MoodPlaylist moodPlaylist) {
             tvMoodText.setText(moodPlaylist.getTitle());
